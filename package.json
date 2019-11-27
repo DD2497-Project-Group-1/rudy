@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/DD2497-Project-Group-1/rudy/issues"
   },
-  "homepage": "https://github.com/DD2497-Project-Group-1/rudy#readme"
+  "homepage": "https://github.com/DD2497-Project-Group-1/rudy#readme",
+  "dependencies": {
+    "random-useragent": "^0.3.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5"
+  }
 }
