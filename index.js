@@ -18,7 +18,7 @@ function setupStream() {
   stream._read = () => {
     setTimeout(() => {
       stream.push('payload.txt')
-    }, Math.random() * 10 + 1)
+    }, (Math.random() * 10 + 1) * 1000)
   }
 }
 
