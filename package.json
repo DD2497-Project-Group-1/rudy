@@ -1,0 +1,25 @@
+{
+  "name": "rudy",
+  "version": "1.0.0",
+  "description": "A tool for testing RUDY attacks against a server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DD2497-Project-Group-1/rudy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DD2497-Project-Group-1/rudy/issues"
+  },
+  "homepage": "https://github.com/DD2497-Project-Group-1/rudy#readme",
+  "dependencies": {
+    "random-useragent": "^0.3.1",
+    "readline-promise": "^1.0.4",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5"
+  }
+}
