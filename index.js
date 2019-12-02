@@ -42,11 +42,11 @@ function rudyAttack() {
 function attack() {
   rp(options)
   .then(() => {
-    console.log('Successful attack')
+    console.log('Successful request')
     closeStream()
   })
   .catch(err => {
-    console.error({ err })
+    console.error('Error while sending request')
     closeStream()
   })
 }
