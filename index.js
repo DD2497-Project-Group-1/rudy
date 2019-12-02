@@ -12,7 +12,7 @@ function setupStream() {
   stream._read = () => {
     setTimeout(() => {
       stream.push('payload.txt')
-    }, 5000)
+    }, Math.random() * 10 + 1)
   }
 }
 
